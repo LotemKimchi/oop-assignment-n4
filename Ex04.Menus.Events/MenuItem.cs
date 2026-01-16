@@ -104,15 +104,15 @@ namespace Ex04.Menus.Events
 
     public class ActionItem : MenuItem
     {
-        public event Action selected;
+        public event Action Selected;
 
         public ActionItem(string i_Title) :base(i_Title) { }
 
         internal override void OnSelected()
         {
-            if (selected != null)
+            if (Selected != null)
             {
-                selected.Invoke();
+                Selected.Invoke();
             }
         }
     }
