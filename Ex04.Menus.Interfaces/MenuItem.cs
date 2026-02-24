@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Ex04.Menus.Events
+namespace Ex04.Menus.Interfaces
 {
     public abstract class MenuItem
     {

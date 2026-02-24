@@ -1,109 +1,49 @@
-﻿using System;
-using InterfacesMenu = Ex04.Menus.Interfaces;
-using EventsMenu = Ex04.Menus.Events;
+﻿using Ex04.Menus.Interfaces;
+
+using EventsMainMenu = Ex04.Menus.Events.MainMenu;
+using EventsSubMenuItem = Ex04.Menus.Events.SubMenuItem;
+using EventsActionMenuItem = Ex04.Menus.Events.ActionMenuItem;
 
 namespace Ex04.Menus.Test
 {
-    internal static class MenusBuilder
+    public static class MenusBuilder
     {
-        private const string k_InterfaceMainTitle = "Interfaces Main Menu";
-        private const string k_EventsMainTitle = "Events Main Menu";
-
-        private const string k_VersionAndLowercaseTitle = "Version and Lowercase";
-        private const string k_ShowDateTimeTitle = "Show Current Date/Time";
-
-        public static InterfacesMenu.MainMenu BuildInterfacesMenu()
+        public static MainMenu BuildInterfacesMenu()
         {
-            InterfacesMenu.MainMenu mainMenu = new InterfacesMenu.MainMenu(k_InterfaceMainTitle);
-
-            // SubMenu: Version and Lowercase
-            InterfacesMenu.SubMenu versionAndLowercase = new InterfacesMenu.SubMenu(k_VersionAndLowercaseTitle);
-            versionAndLowercase.AddItem(
-                new InterfacesMenu.ActionItem("Show Version", new ShowVersionAction()));
-            versionAndLowercase.AddItem(
-                new InterfacesMenu.ActionItem("Count Lowercase", new CountLowercaseAction()));
-
-            // SubMenu: Date/Time
-            InterfacesMenu.SubMenu dateTimeMenu = new InterfacesMenu.SubMenu(k_ShowDateTimeTitle);
-            dateTimeMenu.AddItem(
-                new InterfacesMenu.ActionItem("Show Current Time", new ShowCurrentTimeAction()));
-            dateTimeMenu.AddItem(
-                new InterfacesMenu.ActionItem("Show Current Date", new ShowCurrentDateAction()));
-
-            // Root
-            mainMenu.AddItem(versionAndLowercase);
-            mainMenu.AddItem(dateTimeMenu);
+            MainMenu mainMenu = new MainMenu("Interfaces Main Menu");
+            SubMenuItem versionAndLowercaseSubMenu = new SubMenuItem("Version and Lowercase");
+            versionAndLowercaseSubMenu.AddChild(new ActionMenuItem("Show Version", new ShowVersionAction()));
+            versionAndLowercaseSubMenu.AddChild(new ActionMenuItem("Count Lowercase", new CountLowercaseAction()));
+            SubMenuItem currentTimeDateSubMenu = new SubMenuItem("Show Current Date/Time");
+            currentTimeDateSubMenu.AddChild(new ActionMenuItem("Show Current Time", new ShowTimeAction()));
+            currentTimeDateSubMenu.AddChild(new ActionMenuItem("Show Current Date", new ShowDateAction()));
+            mainMenu.Root.AddChild(versionAndLowercaseSubMenu);
+            mainMenu.Root.AddChild(currentTimeDateSubMenu);
 
             return mainMenu;
         }
 
-        public static EventsMenu.MainMenu BuildEventsMenu()
+        public static EventsMainMenu BuildDelegatesMenu()
         {
-            EventsMenu.MainMenu mainMenu = new EventsMenu.MainMenu(k_EventsMainTitle);
-
-            // SubMenu: Version and Lowercase
-            EventsMenu.SubMenu versionAndLowercase = new EventsMenu.SubMenu(k_VersionAndLowercaseTitle);
-
-            EventsMenu.ActionItem showVersion = new EventsMenu.ActionItem("Show Version");
-            showVersion.Selected += onShowVersion;
-
-            EventsMenu.ActionItem countLowercase = new EventsMenu.ActionItem("Count Lowercase");
-            countLowercase.Selected += onCountLowercase;
-
-            versionAndLowercase.AddItem(showVersion);
-            versionAndLowercase.AddItem(countLowercase);
-
-            // SubMenu: Date/Time
-            EventsMenu.SubMenu dateTimeMenu = new EventsMenu.SubMenu(k_ShowDateTimeTitle);
-
-            EventsMenu.ActionItem showTime = new EventsMenu.ActionItem("Show Current Time");
-            showTime.Selected += onShowCurrentTime;
-
-            EventsMenu.ActionItem showDate = new EventsMenu.ActionItem("Show Current Date");
-            showDate.Selected += onShowCurrentDate;
-
-            dateTimeMenu.AddItem(showTime);
-            dateTimeMenu.AddItem(showDate);
-
-            // Root
-            mainMenu.AddItem(versionAndLowercase);
-            mainMenu.AddItem(dateTimeMenu);
+            EventsMainMenu mainMenu = new EventsMainMenu("Delegates Main Menu");
+            EventsSubMenuItem versionAndLowercaseSubMenu = new EventsSubMenuItem("Version and Lowercase");
+            EventsActionMenuItem showVersionItem = new EventsActionMenuItem("Show Version");
+            showVersionItem.ItemChosenDelegates += AppActions.ShowVersion;
+            EventsActionMenuItem countLowercaseItem = new EventsActionMenuItem("Count Lowercase");
+            countLowercaseItem.ItemChosenDelegates += AppActions.CountLowercase;
+            versionAndLowercaseSubMenu.AddChild(showVersionItem);
+            versionAndLowercaseSubMenu.AddChild(countLowercaseItem);
+            EventsSubMenuItem currentTimeDateSubMenu = new EventsSubMenuItem("Show Current Date/Time");
+            EventsActionMenuItem showTimeItem = new EventsActionMenuItem("Show Current Time");
+            showTimeItem.ItemChosenDelegates += AppActions.ShowTime;
+            EventsActionMenuItem showDateItem = new EventsActionMenuItem("Show Current Date");
+            showDateItem.ItemChosenDelegates += AppActions.ShowDate;
+            currentTimeDateSubMenu.AddChild(showTimeItem);
+            currentTimeDateSubMenu.AddChild(showDateItem);
+            mainMenu.Root.AddChild(versionAndLowercaseSubMenu);
+            mainMenu.Root.AddChild(currentTimeDateSubMenu);
 
             return mainMenu;
-        }
-
-        // ===== Events callbacks =====
-
-        private static void onShowVersion()
-        {
-            Console.WriteLine("App Version: 26.1.4.5940");
-        }
-
-        private static void onCountLowercase()
-        {
-            Console.Write("Enter a sentence: ");
-            string input = Console.ReadLine() ?? string.Empty;
-
-            int count = 0;
-            foreach (char c in input)
-            {
-                if (char.IsLetter(c) && char.IsLower(c))
-                {
-                    count++;
-                }
-            }
-
-            Console.WriteLine("There are {0} lowercase letters in your text", count);
-        }
-
-        private static void onShowCurrentTime()
-        {
-            Console.WriteLine("Current Time: {0:HH:mm:ss}", DateTime.Now);
-        }
-
-        private static void onShowCurrentDate()
-        {
-            Console.WriteLine("Current Date: {0:yyyy-MM-dd}", DateTime.Now);
         }
     }
 }

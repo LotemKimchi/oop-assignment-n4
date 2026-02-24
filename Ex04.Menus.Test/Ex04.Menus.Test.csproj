@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{2ACDB2BA-B92F-4360-96E0-71A2179F1AE3}</ProjectGuid>
+    <ProjectGuid>{4AAA1C3D-8606-4BC3-B5D6-96B9D321B314}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>Ex04.Menus.Test</RootNamespace>
     <AssemblyName>Ex04.Menus.Test</AssemblyName>
@@ -33,24 +33,33 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AppActions.cs" />
+    <Compile Include="InterfaceActions.cs" />
+    <Compile Include="MenusBuilder.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CountLowercaseAction .cs" />
-    <Compile Include="MenusBuilder.cs" />
-    <Compile Include="Program.cs" />
-    <Compile Include="ShowCurrentDateAction .cs" />
-    <Compile Include="ShowCurrentTimeAction .cs" />
-    <Compile Include="ShowVersionAction .cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Ex04.Menus. Interfaces\Ex04.Menus.Interfaces.csproj">
-      <Project>{905dbfb9-bc0a-4077-84fa-f066fac7166d}</Project>
-      <Name>Ex04.Menus.Interfaces</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Ex04.Menus.Events\Ex04.Menus.Events.csproj">
-      <Project>{bfe29608-cd01-49ea-b2cd-5583a02e6308}</Project>
+      <Project>{b248fd46-8a2b-43ad-962d-ef84817cb9b2}</Project>
       <Name>Ex04.Menus.Events</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ex04.Menus.Interfaces\Ex04.Menus.Interfaces.csproj">
+      <Project>{ee77bdbc-cb75-476d-a22d-17d97dc6eaaf}</Project>
+      <Name>Ex04.Menus.Interfaces</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
